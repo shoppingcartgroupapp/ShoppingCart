@@ -35,6 +35,11 @@
 			<td>Data 9</td>
 		</tr>
 	</table>
+	
+	<button type="button" class="btn btn-primary btn-lg">Primary - Large</button>
+	<button type="button" class="btn btn-primary btn-md">Primary - Medium</button>
+	<button type="button" class="btn btn-primary btn-sm">Primary - Small</button>
+	<button type="button" class="btn btn-primary btn-xs">Primary - XSmall</button>
 
 </body>
 </html>
