@@ -50,7 +50,23 @@ public class SupplierController {
 		
 		readAllSuppliers(request, response);
 
-	}	
+	}
+	
+	public void editSupplier(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		int supplierId = Integer.parseInt(request.getParameter("id"));
+		Supplier supplier = supplierService.readSupplier(supplierId);
+		request.setAttribute("name", supplier.getName());
+		request.setAttribute("address1", supplier.getAddress());
+		request.setAttribute("phone", supplier.getPhone());
+		request.setAttribute("email", supplier.getEmail());
+		request.setAttribute("password", supplier.getPassword());
+
+		RequestDispatcher view = request.getRequestDispatcher("jsp/supplierForm.jsp");
+		view.forward(request, response);
+		
+	}
 
 	public void updateSupplier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		

@@ -62,7 +62,25 @@ public class CustomerController {
 		
 		readAllCustomers(request, response);
 
-	}	
+	}
+	
+	public void editCustomer(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		int customerId = Integer.parseInt(request.getParameter("id"));
+		Customer customer = customerService.readCustomer(customerId);
+		request.setAttribute("first_name", customer.getFirstName());
+		request.setAttribute("last_name", customer.getLastName());
+		request.setAttribute("address1", customer.getAddress());
+		request.setAttribute("dob", customer.getDob());
+		request.setAttribute("phone", customer.getPhone());
+		request.setAttribute("email", customer.getEmail());
+		request.setAttribute("password", customer.getPassword());
+
+		RequestDispatcher view = request.getRequestDispatcher("jsp/customerForm.jsp");
+		view.forward(request, response);
+		
+	}
 
 	public void updateCustomer(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {

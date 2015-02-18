@@ -48,7 +48,24 @@ public class ProductController {
 		
 		readAllProducts(request, response);
 
-	}	
+	}
+	
+	public void editProduct(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		
+		int productId = Integer.parseInt(request.getParameter("id"));
+		Product product = productService.readProduct(productId);
+		request.setAttribute("brand", product.getBrand());
+		request.setAttribute("name", product.getName());
+		request.setAttribute("price", product.getPrice());
+		request.setAttribute("quantity", product.getQuantity());
+		request.setAttribute("description", product.getDescription());
+		request.setAttribute("image", product.getImage());
+
+		RequestDispatcher view = request.getRequestDispatcher("jsp/productForm.jsp");
+		view.forward(request, response);
+		
+	}
 
 	public void updateProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {	
 		Product product = new Product();
