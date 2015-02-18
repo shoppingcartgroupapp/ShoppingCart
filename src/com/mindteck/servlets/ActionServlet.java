@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
-
 @WebServlet("/ActionServlet")
 public class ActionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -53,13 +51,7 @@ public class ActionServlet extends HttpServlet {
 			}
 
 			else if (action.equals("deletecustomer")) {
-				try {
-					customerController.deleteCustomer(request, response);
-				} catch (MySQLIntegrityConstraintViolationException e) {
-					request.setAttribute("delete", "failure");
-					customerController.readAllCustomers(request,
-							response);
-				}
+				customerController.readAllCustomers(request, response);
 			}
 		}
 		
@@ -88,13 +80,7 @@ public class ActionServlet extends HttpServlet {
 			}
 
 			else if (action.equals("deletesupplier")) {
-				try {
-					supplierController.deleteSupplier(request, response);
-				} catch (MySQLIntegrityConstraintViolationException e) {
-					request.setAttribute("delete", "failure");
-					supplierController.readAllSuppliers(request,
-							response);
-				}
+				supplierController.readAllSuppliers(request, response);
 			}
 		}
 		
@@ -123,13 +109,7 @@ public class ActionServlet extends HttpServlet {
 			}
 
 			else if (action.equals("deleteproduct")) {
-				try {
-					productController.deleteProduct(request, response);
-				} catch (MySQLIntegrityConstraintViolationException e) {
-					request.setAttribute("delete", "failure");
-					productController.readAllProducts(request,
-							response);
-				}
+				productController.readAllProducts(request, response);
 			}
 		}
 

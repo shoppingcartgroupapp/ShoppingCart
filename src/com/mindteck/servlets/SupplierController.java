@@ -94,9 +94,16 @@ public class SupplierController {
 	public void deleteSupplier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, MySQLIntegrityConstraintViolationException {
 		
 		int supplierId = Integer.parseInt(request.getParameter("id"));
-		supplierService.deleteSupplier(supplierId);
-		request.setAttribute("delete", "success");
-		readAllSuppliers(request, response);
+		
+		try {
+			supplierService.deleteSupplier(supplierId);
+			request.setAttribute("delete", "success");
+		} catch (MySQLIntegrityConstraintViolationException e) {
+			request.setAttribute("delete", "failure");
+		}
+		finally {
+			readAllSuppliers(request, response);
+		}
 
 	}
 

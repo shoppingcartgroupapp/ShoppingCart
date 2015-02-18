@@ -113,18 +113,18 @@ public class CustomerController {
 
 	}
 
-	public void deleteCustomer(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		int customerId = Integer.parseInt(request.getParameter("id"));
 		try {
 			customerService.deleteCustomer(customerId);
+			request.setAttribute("delete", "success");
 		} catch (MySQLIntegrityConstraintViolationException e) {
-			e.printStackTrace();
+			request.setAttribute("delete", "failure");
 		}
-		request.setAttribute("delete", "success");
-		readAllCustomers(request, response);
-
+		finally {
+			readAllCustomers(request, response);
+		}
 	}
 
 }

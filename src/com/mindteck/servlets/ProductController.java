@@ -94,13 +94,13 @@ public class ProductController {
 		int productId = Integer.parseInt(request.getParameter("id"));
 		try {
 			productService.deleteProduct(productId);
+			request.setAttribute("delete", "success");
 		} catch (MySQLIntegrityConstraintViolationException e) {
-			e.printStackTrace();
+			request.setAttribute("delete", "failure");
 		}
-		
-		request.setAttribute("delete", "success");
-		readAllProducts(request, response);
-
+		finally {
+			readAllProducts(request, response);
+		}
 	}
 
 }
