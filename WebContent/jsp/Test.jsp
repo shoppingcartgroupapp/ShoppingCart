@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,22 +11,28 @@
 </head>
 <body>
 
+	<h1 style="text-align: center;">This is the page header</h1>
+
 	<table class="table">
 		<tr>
 			<th>Header 1</th>
 			<th>Header 2</th>
+			<th>Header 3</th>
 		</tr>
 		<tr>
 			<td>Data 1</td>
 			<td>Data 2</td>
-		</tr>
-		<tr>
 			<td>Data 3</td>
-			<td>Data 4</td>
 		</tr>
 		<tr>
+			<td>Data 4</td>
 			<td>Data 5</td>
 			<td>Data 6</td>
+		</tr>
+		<tr>
+			<td>Data 7</td>
+			<td>Data 8</td>
+			<td>Data 9</td>
 		</tr>
 	</table>
 
