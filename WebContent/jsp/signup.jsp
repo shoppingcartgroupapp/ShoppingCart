@@ -6,8 +6,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600'
 	rel='stylesheet' type='text/css'>
-<link href="style.css" rel="stylesheet" type="text/css" media="all" />
-<title>Insert title here</title>
+<link href="css/SignUpFormStyle.css" rel="stylesheet" type="text/css" media="all" />
+<title>Sign Up</title>
 </head>
 <body>
 	<div class="sign_up">
@@ -52,6 +52,6 @@
 	<!----------end bottom-section----------->
 
 	<!----------end form----------->
-	</div>
+
 </body>
 </html>
