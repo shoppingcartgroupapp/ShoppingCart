@@ -97,7 +97,7 @@ public class MySQLConnectionManager {
 	private static DataSource getDataSource() {
         BasicDataSource dataSource = null;
         dataSource = new BasicDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/mindteck");
+        dataSource.setUrl("jdbc:mysql://localhost:3306/shoppingcartproject");
         dataSource.setUsername("root");
         dataSource.setPassword("");
 
