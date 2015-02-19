@@ -24,7 +24,9 @@
 		<c:import url="jsp/header.jsp"></c:import>
 	</div>
 	
-	<p>dfgdfgdfgdfgdfgdfgdfdf</p>
+	<div id="leftNavigation">
+		<c:import url="jsp/leftNavigation.jsp"></c:import>
+	</div>
 	
 	<div id="footer">
 		<c:import url="jsp/footer.jsp"></c:import>
