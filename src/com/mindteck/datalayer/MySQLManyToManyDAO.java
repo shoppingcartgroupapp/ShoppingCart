@@ -62,8 +62,47 @@ public class MySQLManyToManyDAO implements ManyToManyDAO {
 
 	@Override
 	public List<Customer> getAllCustomersForProduct(int productId) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Customer> customerList = new ArrayList<Customer>();
+		
+		StringBuilder query = new StringBuilder();
+		
+		query.append("SELECT ");
+		query.append("customer.customer_id, ");
+		query.append("customer.first_name, ");
+		query.append("customer.last_name, ");
+		query.append("customer.address, ");
+		query.append("customer.dob, ");
+		query.append("customer.phone, ");
+		query.append("customer.email, ");
+		query.append("customer.password");
+		query.append(" FROM " + CUSTOMER_TABLE_NAME);
+		query.append(" JOIN " + CUSTOMER_TO_PRODUCT_TABLE_NAME);
+		query.append(" ON " + CUSTOMER_TABLE_NAME + ".customer_id = " + CUSTOMER_TO_PRODUCT_TABLE_NAME + ".customer_id");
+		query.append(" WHERE product_id = " + productId + ";");
+		
+		Customer customer = null;
+		Connection conn = MySQLConnectionManager.getConnection();
+		ResultSet resultSet = MySQLConnectionManager.executeQuery(conn, query.toString());
+		
+		try {
+			while (resultSet.next()) {
+				customer = new Customer();
+				customer.setCustomerId(resultSet.getInt("customer_id"));
+				customer.setFirstName(resultSet.getString("first_name"));
+				customer.setLastName(resultSet.getString("last_name"));
+				customer.setAddress(resultSet.getString("address"));
+				customer.setDob(resultSet.getDate("dob"));
+				customer.setPhone(resultSet.getInt("phone"));
+				customer.setEmail(resultSet.getString("email"));
+				customer.setPassword(resultSet.getString("password"));
+				customerList.add(customer);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		MySQLConnectionManager.closeConnection(conn);
+		return customerList;
 	}
 
 	@Override
