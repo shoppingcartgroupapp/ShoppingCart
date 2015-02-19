@@ -1,20 +1,23 @@
 package com.mindteck.servlets;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
-import com.mindteck.entities.Product;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mindteck.businesslayer.ManyToManyService;
 
 public class ManyToManyController {
-
-	public List<Product> getAllProductsForCustomer(int customerId) {
-		List<Product> productList = new ArrayList<Product>();
-		
-		
-		
-		
-		
-		return productList;
+	
+	private ManyToManyService manyToManyService = new ManyToManyService();
+	
+	public void getAllProductsForCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		int customerId = Integer.parseInt(request.getParameter("customer_id"));
+		request.setAttribute("productList", manyToManyService.getAllProductsForCustomer(customerId));	
+		RequestDispatcher view = request.getRequestDispatcher("");
+		view.forward(request, response);
 	}
 
 }

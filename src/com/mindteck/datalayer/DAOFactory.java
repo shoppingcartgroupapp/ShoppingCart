@@ -9,6 +9,7 @@ public abstract class DAOFactory {
 	public abstract CustomerDAO getCustomerDAO();
 	public abstract ProductDAO getProductDAO();
 	public abstract SupplierDAO getSupplierDAO();
+	public abstract ManyToManyDAO getManyToManyDAO();
 	
 	public static DAOFactory getDAOFactory(int whichFactory) {
 		switch(whichFactory) {

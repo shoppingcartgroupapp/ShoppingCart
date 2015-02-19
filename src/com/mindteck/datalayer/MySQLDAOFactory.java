@@ -17,4 +17,9 @@ public class MySQLDAOFactory extends DAOFactory {
 		return new MySQLSupplierDAO();
 	}
 
+	@Override
+	public ManyToManyDAO getManyToManyDAO() {
+		return new MySQLManyToManyDAO();
+	}
+
 }

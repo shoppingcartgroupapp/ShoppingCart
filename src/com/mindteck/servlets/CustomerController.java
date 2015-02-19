@@ -17,26 +17,18 @@ public class CustomerController {
 
 	private CustomerService customerService = new CustomerService();
 
-	public void readAllCustomers(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+	public void readAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("customerList", customerService.readAllCustomers());	
 		RequestDispatcher view = request.getRequestDispatcher("jsp/customer.jsp");
 		view.forward(request, response);
-
 	}
 	
-	public void addCustomer(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-
+	public void addCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher view = request.getRequestDispatcher("jsp/customerForm.jsp");
 		view.forward(request, response);
-
 	}
 	
-	public void createCustomer(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+	public void createCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Customer customer = new Customer();
 		customer.setFirstName(request.getParameter("first_name"));
 		customer.setLastName(request.getParameter("last_name"));
@@ -61,7 +53,6 @@ public class CustomerController {
 		}
 		
 		readAllCustomers(request, response);
-
 	}
 	
 	public void editCustomer(HttpServletRequest request,
