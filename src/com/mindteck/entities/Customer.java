@@ -9,7 +9,7 @@ public class Customer {
 	private String lastName;
 	private String address;
 	private Date dob;
-	private int phone;
+	private long phone;
 	private String email;
 	private String password;
 	
@@ -43,10 +43,10 @@ public class Customer {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	public int getPhone() {
+	public long getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {
@@ -64,6 +64,13 @@ public class Customer {
 	
 	@Override
 	public String toString() {
+		return "Customer [customerId=" + customerId + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", address=" + address
+				+ ", dob=" + dob + ", phone=" + phone + ", email=" + email
+				+ ", password=" + password + "]";
+	}
+	
+	public String simpleToString() {
 		return this.firstName + " " + this.lastName;
 	}
 

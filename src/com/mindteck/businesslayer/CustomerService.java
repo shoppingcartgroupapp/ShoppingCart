@@ -5,7 +5,6 @@ import java.util.List;
 import com.mindteck.datalayer.CustomerDAO;
 import com.mindteck.datalayer.DAOFactory;
 import com.mindteck.entities.Customer;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class CustomerService {
 	
@@ -28,7 +27,7 @@ public class CustomerService {
 		return customerDAO.updateCustomer(c);
 	}
 
-	public int deleteCustomer(int id) throws MySQLIntegrityConstraintViolationException {
+	public int deleteCustomer(int id) throws DataDeletionException {
 		return customerDAO.deleteCustomer(id);
 	}
 }

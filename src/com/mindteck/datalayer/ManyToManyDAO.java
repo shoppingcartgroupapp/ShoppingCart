@@ -8,9 +8,9 @@ import com.mindteck.entities.Supplier;
 
 public interface ManyToManyDAO {
 
-	public List<Product> getAllProductsForCustomer(int customerId);
-	public List<Customer> getAllCustomersForProduct(int productId);
-	public List<Product> getAllProductsForSupplier(int supplierId);
-	public List<Supplier> getAllSuppliersForProduct(int productId);
+	public List<Product> readAllProductsForCustomer(int customerId);
+	public List<Customer> readAllCustomersForProduct(int productId);
+	public List<Product> readAllProductsForSupplier(int supplierId);
+	public List<Supplier> readAllSuppliersForProduct(int productId);
 	
 }

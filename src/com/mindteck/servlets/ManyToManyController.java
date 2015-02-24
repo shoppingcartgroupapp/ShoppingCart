@@ -15,7 +15,7 @@ public class ManyToManyController {
 	
 	public void getAllProductsForCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int customerId = Integer.parseInt(request.getParameter("customer_id"));
-		request.setAttribute("productList", manyToManyService.getAllProductsForCustomer(customerId));	
+		request.setAttribute("productList", manyToManyService.readAllProductsForCustomer(customerId));	
 		RequestDispatcher view = request.getRequestDispatcher("");
 		view.forward(request, response);
 	}

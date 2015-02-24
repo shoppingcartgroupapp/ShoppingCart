@@ -5,7 +5,7 @@ public class Supplier {
 	private int supplierId;
 	private String name;
 	private String address;
-	private int phone;
+	private long phone;
 	private String email;
 	private String password;
 	
@@ -27,10 +27,10 @@ public class Supplier {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getPhone() {
+	public long getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 	public String getEmail() {
@@ -45,9 +45,15 @@ public class Supplier {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	
 	@Override
 	public String toString() {
+		return "Supplier [supplierId=" + supplierId + ", name=" + name
+				+ ", address=" + address + ", phone=" + phone + ", email="
+				+ email + ", password=" + password + "]";
+	}
+
+	public String simpleToString() {
 		return this.supplierId + " " + this.name;
 	}
 	

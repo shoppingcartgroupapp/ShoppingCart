@@ -41,7 +41,7 @@ public class ActionServlet extends HttpServlet {
 			else if (action.equals("createcustomer")) {
 				customerController.createCustomer(request, response);
 			}
-
+			
 			else if (action.equals("editcustomer")) {
 				customerController.editCustomer(request, response);
 			}
@@ -82,6 +82,23 @@ public class ActionServlet extends HttpServlet {
 			else if (action.equals("deletesupplier")) {
 				supplierController.readAllSuppliers(request, response);
 			}
+		}
+		
+		if (action.contains("account")) {
+			
+			if (action.equals("verifyaccount")) {
+				
+				if (request.getParameter("accountType").equals("customer")) {
+					CustomerController customerController = new CustomerController();
+					customerController.verifyCustomer(request, response);
+				}
+				
+				else if (request.getParameter("accountType").equals("supplier")) {
+//					SupplierController supplierController = new SupplierController();
+//					supplierController.verifySupplier(request, response);
+				}
+			}
+			
 		}
 		
 		if (action.contains("product")) {

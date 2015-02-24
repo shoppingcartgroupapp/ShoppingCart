@@ -5,7 +5,6 @@ import java.util.List;
 import com.mindteck.datalayer.DAOFactory;
 import com.mindteck.datalayer.SupplierDAO;
 import com.mindteck.entities.Supplier;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class SupplierService {
 	
@@ -28,7 +27,7 @@ public class SupplierService {
 		return supplierDAO.updateSupplier(c);
 	}
 
-	public int deleteSupplier(int id) throws MySQLIntegrityConstraintViolationException {
+	public int deleteSupplier(int id) throws DataDeletionException {
 		return supplierDAO.deleteSupplier(id);
 	}
 }

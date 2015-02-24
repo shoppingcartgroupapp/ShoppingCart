@@ -1,8 +1,10 @@
 package com.mindteck.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,36 +12,53 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mindteck.businesslayer.CustomerService;
+import com.mindteck.businesslayer.DataDeletionException;
 import com.mindteck.entities.Customer;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 public class CustomerController {
 
 	private CustomerService customerService = new CustomerService();
 
 	public void readAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		List<Customer> customerList = customerService.readAllCustomers();
+		PrintWriter out = response.getWriter();
+		for (Customer c : customerList) {
+			out.println(c + "<br /><br />");
+		}
+		
+		// KEEP THIS - IT IS THE CORRECT VERSION. THE ABOVE IS FOR TESTING ONLY
+		/*
 		request.setAttribute("customerList", customerService.readAllCustomers());	
 		RequestDispatcher view = request.getRequestDispatcher("jsp/customer.jsp");
 		view.forward(request, response);
+		*/
 	}
 	
 	public void addCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		createCustomer(request, response);
+		
+		// KEEP THIS - IT IS THE CORRECT VERSION. THE ABOVE IS FOR TESTING ONLY
+		/*
 		RequestDispatcher view = request.getRequestDispatcher("jsp/customerForm.jsp");
 		view.forward(request, response);
+		*/
 	}
 	
 	public void createCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Customer customer = new Customer();
-		customer.setFirstName(request.getParameter("first_name"));
-		customer.setLastName(request.getParameter("last_name"));
+		customer.setFirstName(request.getParameter("firstName"));
+		customer.setLastName(request.getParameter("lastName"));
 		customer.setAddress(request.getParameter("address"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 		try {
 			customer.setDob(sdf.parse(request.getParameter("dob")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		customer.setPhone(Integer.parseInt(request.getParameter("phone")));
+		
+		customer.setPhone(Long.parseLong(request.getParameter("phone")));
 		customer.setEmail(request.getParameter("email"));
 		customer.setPassword(request.getParameter("password"));
 		
@@ -55,14 +74,53 @@ public class CustomerController {
 		readAllCustomers(request, response);
 	}
 	
-	public void editCustomer(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	public void verifyCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		Customer customer = new Customer();
+		customer.setEmail(request.getParameter("email"));
+		customer.setPassword(request.getParameter("password"));
+		
+		request.setAttribute("accountType", request.getParameter("accountType"));
+		
+		List<Customer> customerList = customerService.readAllCustomers();
+		
+		for (Customer c : customerList) {
+			if (c.getEmail().equals(customer.getEmail())) {
+				if (c.getPassword().equals(customer.getPassword())) {
+					customer = c;
+					request.setAttribute("login", "success");
+//					HttpSession session = request.getSession();
+//					session.setAttribute("customer", customer.getName());
+//					session.setMaxInactiveInterval(60*60);
+//					Cookie loginCookie = new Cookie("customer", Integer.toString(customer.getId()));
+//					loginCookie.setMaxAge(60*60);
+//					response.addCookie(loginCookie);
+//					response.sendRedirect("loginSuccess.jsp");
+				} else {
+					request.setAttribute("login", "passwordFailure");
+				}
+			}
+		}
+		
+		if (request.getAttribute("login") == null) {
+			request.setAttribute("login", "emailFailure");
+		}
+		
+		RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+		view.forward(request, response);
+				
+	}
+	
+	public void editCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		updateCustomer(request, response);
+		
+		// KEEP THIS - IT IS THE CORRECT VERSION. THE ABOVE IS FOR TESTING ONLY
+		/*
 		int customerId = Integer.parseInt(request.getParameter("id"));
 		Customer customer = customerService.readCustomer(customerId);
 		request.setAttribute("first_name", customer.getFirstName());
 		request.setAttribute("last_name", customer.getLastName());
-		request.setAttribute("address1", customer.getAddress());
+		request.setAttribute("address", customer.getAddress());
 		request.setAttribute("dob", customer.getDob());
 		request.setAttribute("phone", customer.getPhone());
 		request.setAttribute("email", customer.getEmail());
@@ -70,24 +128,24 @@ public class CustomerController {
 
 		RequestDispatcher view = request.getRequestDispatcher("jsp/customerForm.jsp");
 		view.forward(request, response);
-		
+		*/
 	}
 
-	public void updateCustomer(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		
+	public void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Customer customer = new Customer();
 		customer.setCustomerId(Integer.parseInt(request.getParameter("id")));
 		customer.setFirstName(request.getParameter("first_name"));
 		customer.setLastName(request.getParameter("last_name"));
 		customer.setAddress(request.getParameter("address"));
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
 		try {
 			customer.setDob(sdf.parse(request.getParameter("dob")));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		customer.setPhone(Integer.parseInt(request.getParameter("phone")));
+		
+		customer.setPhone(Long.parseLong(request.getParameter("phone")));
 		customer.setEmail(request.getParameter("email"));
 		customer.setPassword(request.getParameter("password"));
 		
@@ -101,7 +159,6 @@ public class CustomerController {
 		}
 		
 		readAllCustomers(request, response);
-
 	}
 
 	public void deleteCustomer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -110,7 +167,7 @@ public class CustomerController {
 		try {
 			customerService.deleteCustomer(customerId);
 			request.setAttribute("delete", "success");
-		} catch (MySQLIntegrityConstraintViolationException e) {
+		} catch (DataDeletionException e) {
 			request.setAttribute("delete", "failure");
 		}
 		finally {

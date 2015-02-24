@@ -5,6 +5,8 @@ public class Product {
 	private int productId;
 	private String brand;
 	private String name;
+	private String category;
+	private String subcategory;
 	private double price;
 	private int quantity;
 	private String description;
@@ -27,6 +29,18 @@ public class Product {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getCategory() {
+		return category;
+	}
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	public String getSubcategory() {
+		return subcategory;
+	}
+	public void setSubcategory(String subcategory) {
+		this.subcategory = subcategory;
 	}
 	public double getPrice() {
 		return price;
@@ -52,9 +66,16 @@ public class Product {
 	public void setImage(String image) {
 		this.image = image;
 	}
-
+	
 	@Override
 	public String toString() {
+		return "Product [productId=" + productId + ", brand=" + brand
+				+ ", name=" + name + ", price=" + price + ", quantity="
+				+ quantity + ", description=" + description + ", image="
+				+ image + "]";
+	}
+
+	public String simpleToString() {
 		return this.productId + " " + this.brand + " " + this.name;
 	}
 	
