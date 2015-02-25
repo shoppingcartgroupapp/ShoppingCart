@@ -9,15 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.mindteck.businesslayer.DataDeletionException;
-import com.mindteck.businesslayer.ProductService;
+import com.mindteck.businesslayer.ProductDelegate;
 import com.mindteck.entities.Product;
 
 public class ProductController {
 
-	private ProductService productService = new ProductService();
+	private ProductDelegate productDelegate = new ProductDelegate();
+	//private ProductService productService = new ProductService();
 
 	public void readAllProducts(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Product> productList = productService.readAllProducts();
+		List<Product> productList = productDelegate.readAllProducts();
 		PrintWriter out = response.getWriter();
 		for (Product p : productList) {
 			out.println(p + "<br /><br />");
@@ -52,7 +53,7 @@ public class ProductController {
 		product.setDescription(request.getParameter("description"));
 		product.setImage(request.getParameter("image"));
 		
-		int result = productService.createProduct(product);
+		int result = productDelegate.createProduct(product);
 		
 		if (result == 0) {
 			request.setAttribute("add", "failure");
@@ -99,7 +100,7 @@ public class ProductController {
 		product.setDescription(request.getParameter("description"));
 		product.setImage(request.getParameter("image"));
 		
-		int result = productService.updateProduct(product);
+		int result = productDelegate.updateProduct(product);
 		
 		if (result == 0) {
 			request.setAttribute("update", "failure");
@@ -115,7 +116,7 @@ public class ProductController {
 	public void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int productId = Integer.parseInt(request.getParameter("id"));
 		try {
-			productService.deleteProduct(productId);
+			productDelegate.deleteProduct(productId);
 			request.setAttribute("delete", "success");
 		} catch (DataDeletionException e) {
 			request.setAttribute("delete", "failure");

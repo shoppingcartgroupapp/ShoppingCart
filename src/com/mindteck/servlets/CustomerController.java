@@ -10,17 +10,18 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.mindteck.businesslayer.CustomerService;
+import com.mindteck.businesslayer.CustomerDelegate;
 import com.mindteck.businesslayer.DataDeletionException;
 import com.mindteck.entities.Customer;
 
 public class CustomerController {
 
-	private CustomerService customerService = new CustomerService();
+	private CustomerDelegate customerDelegate = new CustomerDelegate();
 
 	public void readAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Customer> customerList = customerService.readAllCustomers();
+		List<Customer> customerList = customerDelegate.readAllCustomers();
 		PrintWriter out = response.getWriter();
 		for (Customer c : customerList) {
 			out.println(c + "<br /><br />");
@@ -62,7 +63,7 @@ public class CustomerController {
 		customer.setEmail(request.getParameter("email"));
 		customer.setPassword(request.getParameter("password"));
 		
-		int result = customerService.createCustomer(customer);
+		int result = customerDelegate.createCustomer(customer);
 		
 		if (result == 0) {
 			request.setAttribute("add", "failure");
@@ -82,20 +83,16 @@ public class CustomerController {
 		
 		request.setAttribute("accountType", request.getParameter("accountType"));
 		
-		List<Customer> customerList = customerService.readAllCustomers();
+		List<Customer> customerList = customerDelegate.readAllCustomers();
 		
 		for (Customer c : customerList) {
 			if (c.getEmail().equals(customer.getEmail())) {
 				if (c.getPassword().equals(customer.getPassword())) {
 					customer = c;
 					request.setAttribute("login", "success");
-//					HttpSession session = request.getSession();
-//					session.setAttribute("customer", customer.getName());
-//					session.setMaxInactiveInterval(60*60);
-//					Cookie loginCookie = new Cookie("customer", Integer.toString(customer.getId()));
-//					loginCookie.setMaxAge(60*60);
-//					response.addCookie(loginCookie);
-//					response.sendRedirect("loginSuccess.jsp");
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", customer.getFirstName());
+					session.setMaxInactiveInterval(60*60);
 				} else {
 					request.setAttribute("login", "passwordFailure");
 				}
@@ -149,7 +146,7 @@ public class CustomerController {
 		customer.setEmail(request.getParameter("email"));
 		customer.setPassword(request.getParameter("password"));
 		
-		int result = customerService.updateCustomer(customer);
+		int result = customerDelegate.updateCustomer(customer);
 		
 		if (result == 0) {
 			request.setAttribute("update", "failure");
@@ -165,7 +162,7 @@ public class CustomerController {
 		
 		int customerId = Integer.parseInt(request.getParameter("id"));
 		try {
-			customerService.deleteCustomer(customerId);
+			customerDelegate.deleteCustomer(customerId);
 			request.setAttribute("delete", "success");
 		} catch (DataDeletionException e) {
 			request.setAttribute("delete", "failure");

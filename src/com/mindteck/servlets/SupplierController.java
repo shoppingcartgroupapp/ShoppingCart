@@ -4,20 +4,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.mindteck.businesslayer.DataDeletionException;
-import com.mindteck.businesslayer.SupplierService;
+import com.mindteck.businesslayer.SupplierDelegate;
 import com.mindteck.entities.Supplier;
 
 public class SupplierController {
 
-	private SupplierService supplierService = new SupplierService();
+	private SupplierDelegate supplierDelegate = new SupplierDelegate();
+	//private SupplierService supplierService = new SupplierService();
 
 	public void readAllSuppliers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<Supplier> supplierList = supplierService.readAllSuppliers();
+		List<Supplier> supplierList = supplierDelegate.readAllSuppliers();
 		PrintWriter out = response.getWriter();
 		for (Supplier s : supplierList) {
 			out.println(s + "<br /><br />");
@@ -51,7 +54,7 @@ public class SupplierController {
 		supplier.setEmail(request.getParameter("email"));
 		supplier.setPassword(request.getParameter("password"));
 		
-		int result = supplierService.createSupplier(supplier);
+		int result = supplierDelegate.createSupplier(supplier);
 		
 		if (result == 0) {
 			request.setAttribute("add", "failure");
@@ -62,6 +65,39 @@ public class SupplierController {
 		
 		readAllSuppliers(request, response);
 
+	}
+	
+public void verifySupplier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		Supplier supplier = new Supplier();
+		supplier.setEmail(request.getParameter("email"));
+		supplier.setPassword(request.getParameter("password"));
+		
+		request.setAttribute("accountType", request.getParameter("accountType"));
+		
+		List<Supplier> supplierList = supplierDelegate.readAllSuppliers();
+		
+		for (Supplier c : supplierList) {
+			if (c.getEmail().equals(supplier.getEmail())) {
+				if (c.getPassword().equals(supplier.getPassword())) {
+					supplier = c;
+					request.setAttribute("login", "success");
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", supplier.getName());
+					session.setMaxInactiveInterval(60*60);
+				} else {
+					request.setAttribute("login", "passwordFailure");
+				}
+			}
+		}
+		
+		if (request.getAttribute("login") == null) {
+			request.setAttribute("login", "emailFailure");
+		}
+		
+		RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+		view.forward(request, response);
+				
 	}
 	
 	public void editSupplier(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -92,7 +128,7 @@ public class SupplierController {
 		supplier.setEmail(request.getParameter("email"));
 		supplier.setPassword(request.getParameter("password"));
 		
-		int result = supplierService.updateSupplier(supplier);
+		int result = supplierDelegate.updateSupplier(supplier);
 		
 		if (result == 0) {
 			request.setAttribute("update", "failure");
@@ -110,7 +146,7 @@ public class SupplierController {
 		int supplierId = Integer.parseInt(request.getParameter("id"));
 		
 		try {
-			supplierService.deleteSupplier(supplierId);
+			supplierDelegate.deleteSupplier(supplierId);
 			request.setAttribute("delete", "success");
 		} catch (DataDeletionException e) {
 			request.setAttribute("delete", "failure");

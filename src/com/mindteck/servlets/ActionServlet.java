@@ -2,6 +2,7 @@ package com.mindteck.servlets;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -94,9 +95,15 @@ public class ActionServlet extends HttpServlet {
 				}
 				
 				else if (request.getParameter("accountType").equals("supplier")) {
-//					SupplierController supplierController = new SupplierController();
-//					supplierController.verifySupplier(request, response);
+					SupplierController supplierController = new SupplierController();
+					supplierController.verifySupplier(request, response);
 				}
+			}
+			
+			else if (action.equals("logoutaccount")) {
+				request.getSession().invalidate();
+				RequestDispatcher view = request.getRequestDispatcher("/index.jsp");
+				view.forward(request, response);
 			}
 			
 		}

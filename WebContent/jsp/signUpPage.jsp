@@ -69,44 +69,24 @@
       }
 
     </style>
-    
-    	<c:choose>
-    		<c:when test='${not empty sessionScope["user"]}'>
-    			<div id="header">
-    			<c:import url="jsp/loggedInHeader.jsp"></c:import>
-    			</div>
-    		</c:when>
-    		<c:otherwise>
-    			<div id="header">
-    			<c:import url="jsp/header.jsp"></c:import>
-    			</div>
-    		</c:otherwise>
-    	</c:choose>
-		
-		----- Start Body Here -----
-		
-		<br> ${requestScope["login"]}
-		
-		<c:if test='${requestScope["login"] == "success"}'>
-		<p style="color: #00DD00;">Login successful!</p>
-		</c:if>
+
+	
+		<div id="header">
+			<c:import url="header.jsp"></c:import>
+		</div>
 		
 		
-		<c:if test='${requestScope["login"] == "passwordFailure"}'>
-		<p style="color: #FF0000;">Password mismatch with the given email address.</p>
-		</c:if>
-		
-		<c:if test='${requestScope["login"] == "emailFailure"}'>
-		<p style="color: #FF0000;">This email does not exist in our ${requestScope["accountType"]} database.</p>
-		</c:if>
-		
-		----- Stop Body Here -----
+		<div id="signUpForm">
+			<c:import url="signUp.jsp"></c:import>
+		</div>
 
 		<div id="wrap">
 			<div id="push"></div>
     	</div>
 		<div id="footer">
-			<c:import url="jsp/footer.jsp"></c:import>	
+		
+			<c:import url="footer.jsp"></c:import>
+		
 		</div>
 	
 
