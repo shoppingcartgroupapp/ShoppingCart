@@ -17,7 +17,7 @@ import com.mindteck.businesslayer.DataDeletionException;
 import com.mindteck.entities.Customer;
 
 public class CustomerController {
-
+	//Comment
 	private CustomerDelegate customerDelegate = new CustomerDelegate();
 
 	public void readAllCustomers(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
