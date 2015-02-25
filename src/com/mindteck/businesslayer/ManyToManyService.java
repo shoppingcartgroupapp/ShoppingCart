@@ -17,13 +17,13 @@ public class ManyToManyService {
 		return manyToManyDAO.readAllProductsForCustomer(customerId);
 	}
 	public List<Customer> readAllCustomersForProduct(int productId) {
-		return null;
+		return manyToManyDAO.readAllCustomersForProduct(productId);
 	}
 	public List<Product> readAllProductsForSupplier(int supplierId) {
-		return null;
+		return manyToManyDAO.readAllProductsForSupplier(supplierId);
 	}
 	public List<Supplier> readAllSuppliersForProduct(int productId) {
-		return null;
+		return manyToManyDAO.readAllSuppliersForProduct(productId);
 	}
 	
 }
